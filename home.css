@@ -1,0 +1,114 @@
+:root {
+  color-scheme: light;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  background: #f7f4ee;
+  color: #1d2a2d;
+  line-height: 1.7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.hero,
+main {
+  margin: 0 auto;
+  max-width: 920px;
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+.hero {
+  background: #26736b;
+  color: #fff;
+  max-width: none;
+  padding-bottom: 1.5rem;
+  padding-top: max(1.5rem, env(safe-area-inset-top));
+}
+
+.hero > * {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 920px;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.2rem;
+}
+
+h1,
+h2 {
+  line-height: 1.25;
+}
+
+h1 {
+  margin: 0;
+}
+
+h2 {
+  margin: 1.7rem 0 0.7rem;
+}
+
+main {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.card-grid {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.exam-card,
+.link-list a {
+  background: #fff;
+  border: 1px solid #e0ded8;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.2rem 0.8rem rgb(45 55 54 / 7%);
+  display: grid;
+  gap: 0.2rem;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+.exam-card.available {
+  border-color: #83b8ac;
+  color: #1e655f;
+}
+
+.exam-card.pending {
+  color: #68777a;
+}
+
+.status {
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.link-list {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.link-list a {
+  color: #1e655f;
+}
+
+.link-list span {
+  color: #68777a;
+  font-size: 0.9rem;
+}
+
+.offline-note {
+  background: #e7f5ef;
+  border-radius: 0.7rem;
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+}

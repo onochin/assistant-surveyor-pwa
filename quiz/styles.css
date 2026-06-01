@@ -15,6 +15,18 @@ body {
   min-width: 320px;
 }
 
+.quiz-home-nav {
+  margin: 0 auto;
+  max-width: 860px;
+  padding: max(0.8rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
+    0 max(1rem, env(safe-area-inset-left));
+}
+
+.quiz-home-nav a {
+  color: #1e655f;
+  font-weight: 700;
+}
+
 button {
   border: 0;
   border-radius: 0.65rem;

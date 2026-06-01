@@ -1,9 +1,10 @@
 "use strict";
 
-const CACHE_NAME = "assistant-surveyor-r07-v1";
+const CACHE_NAME = "surveying-exam-study-v3";
 const PRECACHE_URLS = [
+  "./",
+  "./quiz/",
   "./.nojekyll",
-  "./app.js",
   "./data/assets/question_03_table.png",
   "./data/assets/question_06_table.png",
   "./data/assets/question_07_figure_and_table.png",
@@ -46,14 +47,17 @@ const PRECACHE_URLS = [
   "./explanations/2025_R07/q27.html",
   "./explanations/2025_R07/q28.html",
   "./explanations/styles.css",
+  "./home.css",
   "./icon-180.png",
   "./icon-192.png",
   "./icon-512.png",
   "./icon.svg",
   "./index.html",
   "./manifest.webmanifest",
-  "./register-sw.js",
-  "./styles.css"
+  "./quiz/app.js",
+  "./quiz/index.html",
+  "./quiz/styles.css",
+  "./register-sw.js"
 ];
 
 self.addEventListener("install", (event) => {

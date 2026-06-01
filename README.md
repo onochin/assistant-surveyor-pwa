@@ -3,11 +3,10 @@
 このフォルダは、GitHub Pages等で公開するための成果物です。
 元PDF、作業メモ、OCR確認中の年度は含まれていません。
 
-## 各ファイルの説明
-- public_pwa/service-worker.js: オフライン保存
-- public_pwa/manifest.webmanifest: PWA設定
-- public_pwa/README.md: 公開手順
-- tools/build_public_pwa.py: 公開フォルダ再生成用
+## ホーム画面
+
+`index.html` は資格、年度、主要な公式リンクをまとめたホーム画面です。
+令和7年度の測量士補問題集は `quiz/` にあります。
 
 ## GitHub Pagesで公開
 

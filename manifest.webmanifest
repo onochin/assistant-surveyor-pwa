@@ -1,7 +1,7 @@
 {
-  "name": "測量士補 過去問",
-  "short_name": "測量士補",
-  "description": "測量士補 令和7年度 過去問",
+  "name": "測量試験 過去問",
+  "short_name": "測量過去問",
+  "description": "測量士補・測量士 過去問",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -3,8 +3,8 @@
 const exams = {
   "2025_R07": {
     label: "令和7年",
-    url: "data/exam.json",
-    baseUrl: "data/",
+    url: "../data/exam.json",
+    baseUrl: "../data/",
     storageKey: "assistant-surveyor-2025-r07-progress",
   },
 };
@@ -161,7 +161,7 @@ function renderExplanationLink(question) {
   }
   elements.explanationLink.hidden = false;
   elements.explanationLink.href =
-    `explanations/2025_R07/q${String(question.number).padStart(2, "0")}.html`;
+    `../explanations/2025_R07/q${String(question.number).padStart(2, "0")}.html`;
 }
 
 function moveQuestion(amount) {

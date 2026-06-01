@@ -4,80 +4,86 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#f7f4ee">
-    <title>測量士補 過去問</title>
+    <title>測量試験 過去問</title>
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="apple-touch-icon" href="icon-180.png">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="home.css">
   </head>
   <body>
-    <header class="site-header">
-      <div>
-        <p id="exam-label" class="eyebrow">令和7年</p>
-        <h1>測量士補 過去問</h1>
-        <label class="exam-selector">
-          年度
-          <select id="exam-select">
-            <option value="2025_R07">令和7年</option>
-          </select>
-        </label>
-      </div>
-      <button id="open-function-table" class="secondary-button" type="button">関数表</button>
+    <header class="hero">
+      <p class="eyebrow">SURVEYING EXAM STUDY</p>
+      <h1>測量試験 過去問</h1>
+      <p>問題集、解説、学習に役立つ公式サイトをまとめています。</p>
     </header>
 
     <main>
-      <section class="progress-panel" aria-label="進捗">
-        <div class="progress-label">
-          <span id="question-position">No. 1 / 28</span>
-          <span id="score-summary">回答 0 / 28</span>
+      <section aria-labelledby="assistant-surveyor-heading">
+        <h2 id="assistant-surveyor-heading">測量士補</h2>
+        <div class="card-grid">
+          <a class="exam-card available" href="quiz/">
+            <span class="status">利用可能</span>
+            <strong>令和7年度</strong>
+            <span>全28問・解説付き</span>
+          </a>
+          <div class="exam-card pending">
+            <span class="status">準備中</span>
+            <strong>令和6年度</strong>
+            <span>追加予定</span>
+          </div>
+          <div class="exam-card pending">
+            <span class="status">準備中</span>
+            <strong>令和4年度</strong>
+            <span>追加予定</span>
+          </div>
         </div>
-        <div class="progress-track"><span id="progress-bar"></span></div>
       </section>
 
-      <section id="question-card" class="question-card" aria-live="polite">
-        <h2 id="question-title">読み込み中...</h2>
-        <p id="question-prompt" class="question-prompt"></p>
-        <div id="question-assets" class="asset-list"></div>
-        <fieldset id="choices" class="choices">
-          <legend class="visually-hidden">選択肢</legend>
-        </fieldset>
-        <p id="answer-result" class="answer-result" role="status"></p>
-        <a id="explanation-link" class="explanation-link" target="_blank" rel="noopener">
-          解説を見る
-        </a>
+      <section aria-labelledby="surveyor-heading">
+        <h2 id="surveyor-heading">測量士</h2>
+        <div class="card-grid">
+          <div class="exam-card pending">
+            <span class="status">準備中</span>
+            <strong>過去問</strong>
+            <span>今後追加予定</span>
+          </div>
+        </div>
       </section>
 
-      <nav class="question-controls" aria-label="問題の移動">
-        <button id="previous-question" class="secondary-button" type="button">前の問題</button>
-        <button id="show-question-list" class="secondary-button" type="button">問題一覧</button>
-        <button id="next-question" class="primary-button" type="button">次の問題</button>
-      </nav>
+      <section aria-labelledby="links-heading">
+        <h2 id="links-heading">主要リンク</h2>
+        <div class="link-list">
+          <a href="https://www.gsi.go.jp/LAW/SHIKEN/past.html" target="_blank" rel="noopener">
+            <strong>試験問題及び解答例</strong>
+            <span>国土地理院が公開する過去問</span>
+          </a>
+          <a href="https://www.gsi.go.jp/LAW/SHIKEN/SHIKEN-top.htm" target="_blank" rel="noopener">
+            <strong>測量士・測量士補試験及び登録</strong>
+            <span>試験と登録の公式案内</span>
+          </a>
+          <a href="https://www.gsi.go.jp/sokuryosidou/examsubjects.html" target="_blank" rel="noopener">
+            <strong>試験科目</strong>
+            <span>出題分野の確認</span>
+          </a>
+          <a href="https://www.gsi.go.jp/gijyutukanri/gijyutukanri41018.html" target="_blank" rel="noopener">
+            <strong>作業規程の準則</strong>
+            <span>公共測量の公式資料</span>
+          </a>
+          <a href="https://maps.gsi.go.jp/" target="_blank" rel="noopener">
+            <strong>地理院地図</strong>
+            <span>地形図や写真を閲覧</span>
+          </a>
+          <a href="https://service.gsi.go.jp/" target="_blank" rel="noopener">
+            <strong>オンライン閲覧所</strong>
+            <span>基準点成果、地図、空中写真など</span>
+          </a>
+        </div>
+      </section>
+
+      <p class="offline-note">
+        令和7年度の問題集と解説はオフラインで利用できます。主要リンクを開くには通信が必要です。
+      </p>
     </main>
 
-    <dialog id="question-list-dialog">
-      <div class="dialog-header">
-        <h2>問題一覧</h2>
-        <button class="icon-button" data-close-dialog type="button" aria-label="閉じる">×</button>
-      </div>
-      <div id="question-list" class="question-grid"></div>
-      <button id="reset-progress" class="danger-button" type="button">回答履歴をリセット</button>
-    </dialog>
-
-    <dialog id="function-table-dialog">
-      <div class="dialog-header">
-        <h2>巻末関数表</h2>
-        <button class="icon-button" data-close-dialog type="button" aria-label="閉じる">×</button>
-      </div>
-      <div id="function-table-assets" class="asset-list"></div>
-    </dialog>
-
-    <template id="asset-template">
-      <a class="asset-link" target="_blank" rel="noopener">
-        <img loading="lazy" alt="">
-        <span>画像を拡大表示</span>
-      </a>
-    </template>
-
     <script src="register-sw.js"></script>
-    <script src="app.js"></script>
   </body>
 </html>
