@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f7f4ee">
+    <title>測量士補 過去問</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icon-180.png">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div>
+        <p id="exam-label" class="eyebrow">令和7年</p>
+        <h1>測量士補 過去問</h1>
+        <label class="exam-selector">
+          年度
+          <select id="exam-select">
+            <option value="2025_R07">令和7年</option>
+          </select>
+        </label>
+      </div>
+      <button id="open-function-table" class="secondary-button" type="button">関数表</button>
+    </header>
+
+    <main>
+      <section class="progress-panel" aria-label="進捗">
+        <div class="progress-label">
+          <span id="question-position">No. 1 / 28</span>
+          <span id="score-summary">回答 0 / 28</span>
+        </div>
+        <div class="progress-track"><span id="progress-bar"></span></div>
+      </section>
+
+      <section id="question-card" class="question-card" aria-live="polite">
+        <h2 id="question-title">読み込み中...</h2>
+        <p id="question-prompt" class="question-prompt"></p>
+        <div id="question-assets" class="asset-list"></div>
+        <fieldset id="choices" class="choices">
+          <legend class="visually-hidden">選択肢</legend>
+        </fieldset>
+        <p id="answer-result" class="answer-result" role="status"></p>
+        <a id="explanation-link" class="explanation-link" target="_blank" rel="noopener">
+          解説を見る
+        </a>
+      </section>
+
+      <nav class="question-controls" aria-label="問題の移動">
+        <button id="previous-question" class="secondary-button" type="button">前の問題</button>
+        <button id="show-question-list" class="secondary-button" type="button">問題一覧</button>
+        <button id="next-question" class="primary-button" type="button">次の問題</button>
+      </nav>
+    </main>
+
+    <dialog id="question-list-dialog">
+      <div class="dialog-header">
+        <h2>問題一覧</h2>
+        <button class="icon-button" data-close-dialog type="button" aria-label="閉じる">×</button>
+      </div>
+      <div id="question-list" class="question-grid"></div>
+      <button id="reset-progress" class="danger-button" type="button">回答履歴をリセット</button>
+    </dialog>
+
+    <dialog id="function-table-dialog">
+      <div class="dialog-header">
+        <h2>巻末関数表</h2>
+        <button class="icon-button" data-close-dialog type="button" aria-label="閉じる">×</button>
+      </div>
+      <div id="function-table-assets" class="asset-list"></div>
+    </dialog>
+
+    <template id="asset-template">
+      <a class="asset-link" target="_blank" rel="noopener">
+        <img loading="lazy" alt="">
+        <span>画像を拡大表示</span>
+      </a>
+    </template>
+
+    <script src="register-sw.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

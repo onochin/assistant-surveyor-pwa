@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>令和7年 No. 3 解説</title>
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">令和7年 測量士補</p>
+      <h1>No. 3 解説</h1>
+
+      <section class="explanation-card">
+        <h2>解説</h2>
+        <p><strong>正解は 2（系統誤差 / 偶然誤差 / 50.253 m）です。</strong></p>
+
+        <h3>考え方</h3>
+        <p>
+          原因が一定で、観測方法の工夫などによって対策できる誤差は系統誤差です。
+          発生要因が明らかではなく、防ぐことができない誤差は偶然誤差です。
+          偶然誤差だけを含むと考えられる同じ条件の観測値については、算術平均を最確値とします。
+        </p>
+
+        <h3>計算</h3>
+        <p>表3の10回の観測値を合計し、観測回数で割ります。</p>
+        <p class="calculation">
+          (50.251 + 50.252 + 50.255 + 50.252 + 50.255<br>
+          + 50.252 + 50.255 + 50.251 + 50.252 + 50.255) ÷ 10<br>
+          = 502.530 ÷ 10<br>
+          = <strong>50.253 m</strong>
+        </p>
+
+        <h3>各選択肢の確認</h3>
+        <dl>
+          <dt>1. 誤り</dt>
+          <dd>誤差の分類は正しいですが、平均値が50.252 mではありません。</dd>
+
+          <dt>2. 正しい</dt>
+          <dd>［ア］は系統誤差、［イ］は偶然誤差、［ウ］は50.253 mです。</dd>
+
+          <dt>3. 誤り</dt>
+          <dd>誤差の分類は正しいですが、平均値が50.254 mではありません。</dd>
+
+          <dt>4. 誤り</dt>
+          <dd>系統誤差と偶然誤差が逆です。</dd>
+
+          <dt>5. 誤り</dt>
+          <dd>平均値は正しいですが、系統誤差と偶然誤差が逆です。</dd>
+        </dl>
+
+        <h3>参照資料</h3>
+        <ul>
+          <li>
+            <a href="https://www.gsi.go.jp/common/000229470.pdf" target="_blank" rel="noopener">
+              国土地理院: 測量士補試験問題（測量の誤差に関する出題例）
+            </a>
+          </li>
+        </ul>
+        <p class="reference-date">参照日: 2026年5月31日</p>
+      </section>
+
+      <nav class="page-controls" aria-label="解説ページの移動">
+        <a href="q02.html">前の解説</a>
+        <a href="../../../">問題集へ戻る</a>
+        <a href="q04.html">次の解説</a>
+      </nav>
+    </main>
+  </body>
+</html>

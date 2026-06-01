@@ -1,0 +1,92 @@
+:root {
+  color-scheme: light;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  background: #f7f4ee;
+  color: #1d2a2d;
+  line-height: 1.7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  margin: 0 auto;
+  max-width: 860px;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
+    max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+}
+
+.eyebrow {
+  color: #527175;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+h1,
+h2 {
+  line-height: 1.25;
+}
+
+h3 {
+  margin-top: 1.5rem;
+}
+
+.explanation-card a {
+  color: #1e655f;
+}
+
+.explanation-card dd {
+  margin-bottom: 0.8rem;
+}
+
+.explanation-card dt {
+  font-weight: 800;
+}
+
+.calculation {
+  background: #f7f4ee;
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+}
+
+.reference-date {
+  color: #68777a;
+  font-size: 0.9rem;
+}
+
+.explanation-card {
+  background: #fff;
+  border: 1px solid #e0ded8;
+  border-radius: 0.9rem;
+  box-shadow: 0 0.25rem 1rem rgb(45 55 54 / 8%);
+  margin-top: 1rem;
+  min-height: 12rem;
+  padding: clamp(1rem, 4vw, 1.6rem);
+}
+
+.placeholder {
+  color: #68777a;
+}
+
+.page-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.page-controls a {
+  background: #e5ebe7;
+  border-radius: 0.65rem;
+  color: #26484a;
+  font-weight: 700;
+  padding: 0.7rem 1rem;
+  text-decoration: none;
+}
