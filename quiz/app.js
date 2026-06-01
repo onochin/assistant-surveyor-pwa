@@ -166,14 +166,14 @@ function render() {
 }
 
 function renderExplanationLink(question) {
-  if (state.examId !== "2025_R07") {
+  if (!["2025_R07", "2024_R06", "2022_R04"].includes(state.examId)) {
     elements.explanationLink.hidden = true;
     elements.explanationLink.removeAttribute("href");
     return;
   }
   elements.explanationLink.hidden = false;
   elements.explanationLink.href =
-    `../explanations/2025_R07/q${String(question.number).padStart(2, "0")}.html`;
+    `../explanations/${state.examId}/q${String(question.number).padStart(2, "0")}.html`;
 }
 
 function moveQuestion(amount) {
