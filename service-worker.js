@@ -1,10 +1,25 @@
 "use strict";
 
-const CACHE_NAME = "surveying-exam-study-v4";
+const CACHE_NAME = "surveying-exam-study-v5";
 const PRECACHE_URLS = [
   "./",
   "./quiz/",
   "./.nojekyll",
+  "./data/2022_R04/assets/question_03_table.png",
+  "./data/2022_R04/assets/question_06_figure_and_table.png",
+  "./data/2022_R04/assets/question_07_figure_and_table.png",
+  "./data/2022_R04/assets/question_09_table.png",
+  "./data/2022_R04/assets/question_12_figure_and_tables.png",
+  "./data/2022_R04/assets/question_13_figure_and_table.png",
+  "./data/2022_R04/assets/question_17_figure.png",
+  "./data/2022_R04/assets/question_19_workflow.png",
+  "./data/2022_R04/assets/question_21_map_and_table.png",
+  "./data/2022_R04/assets/question_24_table.png",
+  "./data/2022_R04/assets/question_25_figure.png",
+  "./data/2022_R04/assets/question_27_table_v2.png",
+  "./data/2022_R04/assets/supplementary_function_table.png",
+  "./data/2022_R04/exam.json",
+  "./data/2022_R04/manifest.json",
   "./data/2024_R06/assets/question_05_table.png",
   "./data/2024_R06/assets/question_08_tables_part1.png",
   "./data/2024_R06/assets/question_08_tables_part2.png",

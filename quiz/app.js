@@ -13,6 +13,12 @@ const exams = {
     baseUrl: "../data/2024_R06/",
     storageKey: "assistant-surveyor-2024-r06-progress",
   },
+  "2022_R04": {
+    label: "令和4年",
+    url: "../data/2022_R04/exam.json",
+    baseUrl: "../data/2022_R04/",
+    storageKey: "assistant-surveyor-2022-r04-progress",
+  },
 };
 
 const state = {

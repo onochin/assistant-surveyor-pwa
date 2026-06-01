@@ -1,0 +1,75 @@
+{
+  "bundle": "assistant_surveyor_2022_R04",
+  "files": [
+    {
+      "path": "assets/question_03_table.png",
+      "sha256": "45e307772332406e7c6601c1805b9072e78f882e67136e7f440e659767402878",
+      "bytes": 465410
+    },
+    {
+      "path": "assets/question_06_figure_and_table.png",
+      "sha256": "31c3b9554e3244781a9ac5cdb7747200ef400063dbc600bf2e5dd3c88d6fb076",
+      "bytes": 457515
+    },
+    {
+      "path": "assets/question_07_figure_and_table.png",
+      "sha256": "e0e1d7430a699534742fa751dee0bcedc571328e402cba5fd09b8cbd538ffa23",
+      "bytes": 330238
+    },
+    {
+      "path": "assets/question_09_table.png",
+      "sha256": "c7afae1cbf67f8537fad7521a19a13585450e7f3d54f43ac9dfc1fd60efb28af",
+      "bytes": 180159
+    },
+    {
+      "path": "assets/question_12_figure_and_tables.png",
+      "sha256": "1ad3a21701e400681a3a6a894067df0b347f87cd5802526e7f0c778b553a4ee3",
+      "bytes": 246349
+    },
+    {
+      "path": "assets/question_13_figure_and_table.png",
+      "sha256": "20ac6e455f2fbdd874fd067fce8c53f11cbb75e5f253d3b352d8a9f09b1e8da1",
+      "bytes": 201104
+    },
+    {
+      "path": "assets/question_17_figure.png",
+      "sha256": "69e814cffc6d9175e56bcf747665a46433225398d09b3e59f49372a08490597b",
+      "bytes": 151381
+    },
+    {
+      "path": "assets/question_19_workflow.png",
+      "sha256": "015738e144ccfa6d972cc9ad6885db41114edcb3dc63d260d92174637d116d54",
+      "bytes": 242631
+    },
+    {
+      "path": "assets/question_21_map_and_table.png",
+      "sha256": "202d87ae780e74815767049efeaea7876e1f2ded7bc44c4cce0c7f4407269f4b",
+      "bytes": 3035069
+    },
+    {
+      "path": "assets/question_24_table.png",
+      "sha256": "c46bf2d9323c663366f7f6e75b355fcd61d8e26398a713b14039329c7bb4a155",
+      "bytes": 562655
+    },
+    {
+      "path": "assets/question_25_figure.png",
+      "sha256": "9cd2a8f41195f9befe75eebe93f5749416892978681f7196b614f32f0702bb9f",
+      "bytes": 253331
+    },
+    {
+      "path": "assets/question_27_table_v2.png",
+      "sha256": "e88c1f8c13007e0837bf79f5d3a6382261237a4152599307dd1ebce4347082d6",
+      "bytes": 122270
+    },
+    {
+      "path": "assets/supplementary_function_table.png",
+      "sha256": "d2963a030fe2bd1db8075d531fbf862213803e8efafe001f47608fd4b504c1d2",
+      "bytes": 540511
+    },
+    {
+      "path": "exam.json",
+      "sha256": "14f2538454ab8ae71793470918b3a0cc8c424d9aec4bb66f87835b7050597b91",
+      "bytes": 40955
+    }
+  ]
+}
