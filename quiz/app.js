@@ -3,9 +3,15 @@
 const exams = {
   "2025_R07": {
     label: "令和7年",
-    url: "../data/exam.json",
-    baseUrl: "../data/",
+    url: "../data/2025_R07/exam.json",
+    baseUrl: "../data/2025_R07/",
     storageKey: "assistant-surveyor-2025-r07-progress",
+  },
+  "2024_R06": {
+    label: "令和6年",
+    url: "../data/2024_R06/exam.json",
+    baseUrl: "../data/2024_R06/",
+    storageKey: "assistant-surveyor-2024-r06-progress",
   },
 };
 
@@ -215,4 +221,5 @@ function showLoadError(error) {
   elements.prompt.textContent = `${error.message}\nHTTPサーバー経由で開いてください。`;
 }
 
-loadExam(state.examId).catch(showLoadError);
+const requestedExam = new URLSearchParams(window.location.search).get("exam");
+loadExam(exams[requestedExam] ? requestedExam : state.examId).catch(showLoadError);
