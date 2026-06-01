@@ -1,9 +1,12 @@
 "use strict";
 
-const CACHE_NAME = "surveying-exam-study-v5";
+const CACHE_NAME = "surveying-exam-study-v6";
 const PRECACHE_URLS = [
   "./",
   "./quiz/",
+  "./quiz/?exam=2025_R07",
+  "./quiz/?exam=2024_R06",
+  "./quiz/?exam=2022_R04",
   "./.nojekyll",
   "./data/2022_R04/assets/question_03_table.png",
   "./data/2022_R04/assets/question_06_figure_and_table.png",
