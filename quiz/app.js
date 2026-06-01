@@ -227,5 +227,10 @@ function showLoadError(error) {
   elements.prompt.textContent = `${error.message}\nHTTPサーバー経由で開いてください。`;
 }
 
-const requestedExam = new URLSearchParams(window.location.search).get("exam");
-loadExam(exams[requestedExam] ? requestedExam : state.examId).catch(showLoadError);
+const searchParams = new URLSearchParams(window.location.search);
+const requestedExam = searchParams.get("exam");
+loadExam(exams[requestedExam] ? requestedExam : state.examId)
+  .then(() => {
+    if (searchParams.get("list") === "1") elements.listDialog.showModal();
+  })
+  .catch(showLoadError);
