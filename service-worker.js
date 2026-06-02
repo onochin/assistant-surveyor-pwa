@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "surveying-exam-study-v9";
+const CACHE_NAME = "surveying-exam-study-v10";
 const PRECACHE_URLS = [
   "./",
   "./quiz/",

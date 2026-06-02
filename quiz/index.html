@@ -47,6 +47,17 @@
         <a id="explanation-link" class="explanation-link" target="_blank" rel="noopener">
           解説を見る
         </a>
+        <section class="note-panel" aria-labelledby="note-title">
+          <div class="note-header">
+            <h3 id="note-title">メモ</h3>
+            <span id="note-save-status">端末内に自動保存</span>
+          </div>
+          <textarea id="question-note" rows="5" placeholder="間違えた理由や覚えておきたい点を記入"></textarea>
+          <div class="note-actions">
+            <button id="clear-question-note" class="secondary-button" type="button">このメモを削除</button>
+            <button id="open-notes" class="secondary-button" type="button">メモ一覧・バックアップ</button>
+          </div>
+        </section>
       </section>
 
       <nav class="question-controls" aria-label="問題の移動">
@@ -71,6 +82,26 @@
         <button class="icon-button" data-close-dialog type="button" aria-label="閉じる">×</button>
       </div>
       <div id="function-table-assets" class="asset-list"></div>
+    </dialog>
+
+    <dialog id="notes-dialog">
+      <div class="dialog-header">
+        <h2>メモ一覧・バックアップ</h2>
+        <button class="icon-button" data-close-dialog type="button" aria-label="閉じる">×</button>
+      </div>
+      <p id="notes-summary"></p>
+      <div class="backup-actions">
+        <button id="export-study-data" class="secondary-button" type="button">JSONを書き出す</button>
+        <label class="secondary-button file-button">
+          JSONを読み込む
+          <input id="import-study-data" type="file" accept="application/json,.json">
+        </label>
+      </div>
+      <p class="dialog-help">
+        JSONには3年度分の回答履歴とメモを保存します。読み込み時は現在のデータへ統合し、
+        同じ問題のデータだけ上書きします。
+      </p>
+      <div id="notes-list" class="notes-list"></div>
     </dialog>
 
     <template id="asset-template">

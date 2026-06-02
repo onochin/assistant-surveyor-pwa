@@ -6,18 +6,21 @@ const exams = {
     url: "../data/2025_R07/exam.json",
     baseUrl: "../data/2025_R07/",
     storageKey: "assistant-surveyor-2025-r07-progress",
+    notesStorageKey: "assistant-surveyor-2025-r07-notes",
   },
   "2024_R06": {
     label: "令和6年",
     url: "../data/2024_R06/exam.json",
     baseUrl: "../data/2024_R06/",
     storageKey: "assistant-surveyor-2024-r06-progress",
+    notesStorageKey: "assistant-surveyor-2024-r06-notes",
   },
   "2022_R04": {
     label: "令和4年",
     url: "../data/2022_R04/exam.json",
     baseUrl: "../data/2022_R04/",
     storageKey: "assistant-surveyor-2022-r04-progress",
+    notesStorageKey: "assistant-surveyor-2022-r04-notes",
   },
 };
 
@@ -26,6 +29,7 @@ const state = {
   exam: null,
   currentIndex: 0,
   answers: {},
+  notes: {},
 };
 
 const elements = {
@@ -38,6 +42,8 @@ const elements = {
   progress: document.querySelector("#progress-bar"),
   result: document.querySelector("#answer-result"),
   explanationLink: document.querySelector("#explanation-link"),
+  note: document.querySelector("#question-note"),
+  noteSaveStatus: document.querySelector("#note-save-status"),
   examLabel: document.querySelector("#exam-label"),
   examSelect: document.querySelector("#exam-select"),
   previous: document.querySelector("#previous-question"),
@@ -46,19 +52,33 @@ const elements = {
   list: document.querySelector("#question-list"),
   functionTableDialog: document.querySelector("#function-table-dialog"),
   functionTableAssets: document.querySelector("#function-table-assets"),
+  notesDialog: document.querySelector("#notes-dialog"),
+  notesSummary: document.querySelector("#notes-summary"),
+  notesList: document.querySelector("#notes-list"),
+  importStudyData: document.querySelector("#import-study-data"),
   assetTemplate: document.querySelector("#asset-template"),
 };
 
-function loadProgress() {
+function readStoredObject(key) {
   try {
-    state.answers = JSON.parse(localStorage.getItem(exams[state.examId].storageKey)) || {};
+    const value = JSON.parse(localStorage.getItem(key));
+    return value && typeof value === "object" && !Array.isArray(value) ? value : {};
   } catch {
-    state.answers = {};
+    return {};
   }
+}
+
+function loadProgress() {
+  state.answers = readStoredObject(exams[state.examId].storageKey);
+  state.notes = readStoredObject(exams[state.examId].notesStorageKey);
 }
 
 function saveProgress() {
   localStorage.setItem(exams[state.examId].storageKey, JSON.stringify(state.answers));
+}
+
+function saveNotes() {
+  localStorage.setItem(exams[state.examId].notesStorageKey, JSON.stringify(state.notes));
 }
 
 function assetElement(asset) {
@@ -162,6 +182,8 @@ function render() {
   renderChoices(question, answer);
   renderResult(question, answer);
   renderExplanationLink(question);
+  elements.note.value = state.notes[question.id] || "";
+  elements.noteSaveStatus.textContent = "端末内に自動保存";
   renderQuestionList();
 }
 
@@ -190,6 +212,29 @@ document.querySelector("#show-question-list").addEventListener("click", () => {
 document.querySelector("#open-function-table").addEventListener("click", () => {
   elements.functionTableDialog.showModal();
 });
+document.querySelector("#open-notes").addEventListener("click", () => {
+  renderNotesList();
+  elements.notesDialog.showModal();
+});
+document.querySelector("#clear-question-note").addEventListener("click", () => {
+  const question = state.exam.questions[state.currentIndex];
+  if (!state.notes[question.id]) return;
+  if (!window.confirm("この問題のメモを削除しますか？")) return;
+  delete state.notes[question.id];
+  saveNotes();
+  render();
+});
+elements.note.addEventListener("input", () => {
+  const question = state.exam.questions[state.currentIndex];
+  const value = elements.note.value;
+  if (value.trim()) {
+    state.notes[question.id] = value;
+  } else {
+    delete state.notes[question.id];
+  }
+  saveNotes();
+  elements.noteSaveStatus.textContent = "保存済み";
+});
 document.querySelector("#reset-progress").addEventListener("click", () => {
   if (!window.confirm("回答履歴をリセットしますか？")) return;
   state.answers = {};
@@ -205,6 +250,141 @@ elements.next.addEventListener("click", () => moveQuestion(1));
 document.querySelectorAll("[data-close-dialog]").forEach((button) => {
   button.addEventListener("click", () => button.closest("dialog").close());
 });
+
+function storedStudyData() {
+  const saved = {};
+  for (const [examId, exam] of Object.entries(exams)) {
+    saved[examId] = {
+      answers: readStoredObject(exam.storageKey),
+      notes: readStoredObject(exam.notesStorageKey),
+    };
+  }
+  return saved;
+}
+
+function questionNumber(questionId) {
+  const match = questionId.match(/_q(\d+)$/);
+  return match ? Number(match[1]) : null;
+}
+
+function noteEntries() {
+  const entries = [];
+  for (const [examId, data] of Object.entries(storedStudyData())) {
+    for (const [questionId, note] of Object.entries(data.notes)) {
+      if (typeof note !== "string" || !note.trim()) continue;
+      const number = questionNumber(questionId);
+      if (number === null) continue;
+      entries.push({ examId, questionId, number, note });
+    }
+  }
+  return entries.sort((a, b) => a.examId.localeCompare(b.examId) || a.number - b.number);
+}
+
+function renderNotesList() {
+  const entries = noteEntries();
+  elements.notesSummary.textContent = `保存されているメモ: ${entries.length}件`;
+  elements.notesList.replaceChildren();
+  if (!entries.length) {
+    const empty = document.createElement("p");
+    empty.className = "note-empty";
+    empty.textContent = "保存されているメモはありません。";
+    elements.notesList.append(empty);
+    return;
+  }
+  for (const entry of entries) {
+    const button = document.createElement("button");
+    const title = document.createElement("strong");
+    const preview = document.createElement("span");
+    button.className = "note-list-item";
+    button.type = "button";
+    title.textContent = `${exams[entry.examId].label} No. ${entry.number}`;
+    preview.textContent = entry.note.replace(/\s+/g, " ");
+    button.append(title, preview);
+    button.addEventListener("click", () => {
+      loadExam(entry.examId)
+        .then(() => {
+          const index = state.exam.questions.findIndex((question) => question.id === entry.questionId);
+          if (index >= 0) state.currentIndex = index;
+          elements.notesDialog.close();
+          render();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        })
+        .catch(showLoadError);
+    });
+    elements.notesList.append(button);
+  }
+}
+
+function exportStudyData() {
+  const backup = {
+    schema: "assistant-surveyor-study-backup",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    exams: storedStudyData(),
+  };
+  const blob = new Blob([`${JSON.stringify(backup, null, 2)}\n`], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `assistant-surveyor-study-${backup.exportedAt.slice(0, 10)}.json`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function mergeImportedObject(current, imported, isValid) {
+  if (!imported || typeof imported !== "object" || Array.isArray(imported)) return current;
+  const merged = { ...current };
+  for (const [key, value] of Object.entries(imported)) {
+    if (isValid(key, value)) merged[key] = value;
+  }
+  return merged;
+}
+
+async function importStudyData() {
+  const [file] = elements.importStudyData.files;
+  if (!file) return;
+  try {
+    const backup = JSON.parse(await file.text());
+    if (
+      backup.schema !== "assistant-surveyor-study-backup" ||
+      backup.version !== 1 ||
+      !backup.exams ||
+      typeof backup.exams !== "object"
+    ) {
+      throw new Error("対応していないJSON形式です。");
+    }
+    if (!window.confirm("JSONの回答履歴とメモを現在のデータへ統合しますか？")) return;
+    for (const [examId, imported] of Object.entries(backup.exams)) {
+      const exam = exams[examId];
+      if (!exam || !imported || typeof imported !== "object") continue;
+      const questionPrefix = `assistant_surveyor_${examId}_q`;
+      const isQuestionId = (key) => key.startsWith(questionPrefix);
+      const answers = mergeImportedObject(
+        readStoredObject(exam.storageKey),
+        imported.answers,
+        (key, value) => isQuestionId(key) && ["1", "2", "3", "4", "5"].includes(value),
+      );
+      const notes = mergeImportedObject(
+        readStoredObject(exam.notesStorageKey),
+        imported.notes,
+        (key, value) => isQuestionId(key) && typeof value === "string",
+      );
+      localStorage.setItem(exam.storageKey, JSON.stringify(answers));
+      localStorage.setItem(exam.notesStorageKey, JSON.stringify(notes));
+    }
+    loadProgress();
+    render();
+    renderNotesList();
+    window.alert("JSONを読み込みました。");
+  } catch (error) {
+    window.alert(`JSONを読み込めませんでした: ${error.message}`);
+  } finally {
+    elements.importStudyData.value = "";
+  }
+}
+
+document.querySelector("#export-study-data").addEventListener("click", exportStudyData);
+elements.importStudyData.addEventListener("change", importStudyData);
 
 async function loadExam(examId) {
   state.examId = examId;

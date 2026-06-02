@@ -196,6 +196,49 @@ main {
   text-decoration: none;
 }
 
+.note-panel {
+  border-top: 1px solid #e0ded8;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.note-header,
+.note-actions,
+.backup-actions {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.note-header h3 {
+  margin: 0;
+}
+
+#note-save-status,
+.dialog-help,
+.note-empty {
+  color: #68777a;
+  font-size: 0.85rem;
+}
+
+#question-note {
+  border: 1px solid #cbd7d2;
+  border-radius: 0.65rem;
+  display: block;
+  font: inherit;
+  margin-top: 0.6rem;
+  min-height: 7rem;
+  padding: 0.7rem;
+  resize: vertical;
+  width: 100%;
+}
+
+.note-actions {
+  justify-content: flex-end;
+  margin-top: 0.6rem;
+}
+
 .asset-list {
   display: grid;
   gap: 0.75rem;
@@ -271,6 +314,52 @@ dialog::backdrop {
   padding: 0.2rem 0.6rem;
 }
 
+.backup-actions {
+  justify-content: flex-start;
+}
+
+.file-button {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.7rem 1rem;
+}
+
+.file-button input {
+  display: none;
+}
+
+.notes-list {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.note-list-item {
+  background: #fbfaf7;
+  border: 1px solid #e2e4df;
+  border-radius: 0.65rem;
+  color: #26484a;
+  display: block;
+  padding: 0.75rem;
+  text-align: left;
+  width: 100%;
+}
+
+.note-list-item strong,
+.note-list-item span {
+  display: block;
+}
+
+.note-list-item span {
+  color: #526467;
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-top: 0.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .question-grid {
   display: grid;
   gap: 0.5rem;
@@ -312,5 +401,18 @@ dialog::backdrop {
   #next-question {
     grid-column: span 2;
     order: -1;
+  }
+
+  .note-actions,
+  .backup-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .note-actions button,
+  .backup-actions button,
+  .file-button {
+    text-align: center;
+    width: 100%;
   }
 }
