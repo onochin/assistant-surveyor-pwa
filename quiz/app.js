@@ -22,6 +22,13 @@ const exams = {
     storageKey: "assistant-surveyor-2022-r04-progress",
     notesStorageKey: "assistant-surveyor-2022-r04-notes",
   },
+  "GNSS_FOCUS": {
+    label: "GNSS測位",
+    url: "../data/GNSS_FOCUS/exam.json",
+    baseUrl: "../data/GNSS_FOCUS/",
+    storageKey: "assistant-surveyor-gnss-focus-progress",
+    notesStorageKey: "assistant-surveyor-gnss-focus-notes",
+  },
 };
 
 const state = {
@@ -188,7 +195,7 @@ function render() {
 }
 
 function renderExplanationLink(question) {
-  if (!["2025_R07", "2024_R06", "2022_R04"].includes(state.examId)) {
+  if (!["2025_R07", "2024_R06", "2022_R04", "GNSS_FOCUS"].includes(state.examId)) {
     elements.explanationLink.hidden = true;
     elements.explanationLink.removeAttribute("href");
     return;
