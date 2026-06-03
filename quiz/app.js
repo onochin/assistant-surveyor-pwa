@@ -35,6 +35,7 @@ const state = {
   examId: "2025_R07",
   exam: null,
   currentIndex: 0,
+  category: "all",
   answers: {},
   notes: {},
 };
@@ -47,6 +48,8 @@ const elements = {
   position: document.querySelector("#question-position"),
   score: document.querySelector("#score-summary"),
   progress: document.querySelector("#progress-bar"),
+  categoryFilterPanel: document.querySelector("#category-filter-panel"),
+  categoryFilters: document.querySelector("#category-filters"),
   result: document.querySelector("#answer-result"),
   explanationLink: document.querySelector("#explanation-link"),
   note: document.querySelector("#question-note"),
@@ -88,7 +91,32 @@ function saveNotes() {
   localStorage.setItem(exams[state.examId].notesStorageKey, JSON.stringify(state.notes));
 }
 
-function assetElement(asset) {
+function categoryOptions() {
+  return state.exam?.categories || [];
+}
+
+function filteredQuestions() {
+  const questions = state.exam?.questions || [];
+  if (state.category === "all") return questions;
+  return questions.filter((question) => question.category === state.category);
+}
+
+function ensureCurrentQuestionInFilter() {
+  const filtered = filteredQuestions();
+  if (!filtered.length) {
+    state.currentIndex = 0;
+    return;
+  }
+  const current = state.exam.questions[state.currentIndex];
+  if (current && filtered.includes(current)) return;
+  state.currentIndex = state.exam.questions.indexOf(filtered[0]);
+}
+
+function filteredPosition() {
+  return filteredQuestions().findIndex((question) => question === state.exam.questions[state.currentIndex]);
+}
+
+function localImageAssetElement(asset) {
   const fragment = elements.assetTemplate.content.cloneNode(true);
   const link = fragment.querySelector("a");
   const image = fragment.querySelector("img");
@@ -96,7 +124,67 @@ function assetElement(asset) {
   link.href = url;
   image.src = url;
   image.alt = asset.type === "map" ? "問題に使用する地図" : "問題に使用する図表";
+  fragment.querySelector("span").textContent = asset.label || "画像を拡大表示";
   return fragment;
+}
+
+function tableAssetElement(asset) {
+  const wrapper = document.createElement("section");
+  const title = document.createElement("h3");
+  const table = document.createElement("table");
+  wrapper.className = "table-asset";
+  title.textContent = asset.title || asset.label || "表";
+  table.append(tableRow(asset.columns || [], "th"));
+  for (const row of asset.rows || []) table.append(tableRow(row, "td"));
+  wrapper.append(title, table);
+  return wrapper;
+}
+
+function tableRow(cells, cellTag) {
+  const row = document.createElement("tr");
+  for (const value of cells) {
+    const cell = document.createElement(cellTag);
+    cell.textContent = value;
+    row.append(cell);
+  }
+  return row;
+}
+
+function externalLinkAssetElement(asset) {
+  const link = document.createElement("a");
+  link.className = "external-asset-link";
+  link.href = asset.url;
+  link.target = "_blank";
+  link.rel = "noopener";
+  link.textContent = asset.title || asset.label || asset.url;
+  if (asset.source) {
+    const source = document.createElement("span");
+    source.textContent = asset.source;
+    link.append(source);
+  }
+  return link;
+}
+
+function externalImageAssetElement(asset) {
+  const link = document.createElement("a");
+  const image = document.createElement("img");
+  const label = document.createElement("span");
+  link.className = "asset-link";
+  link.href = asset.url;
+  link.target = "_blank";
+  link.rel = "noopener";
+  image.src = asset.url;
+  image.alt = asset.title || asset.label || "外部参考画像";
+  label.textContent = asset.title || asset.label || "外部画像を開く";
+  link.append(image, label);
+  return link;
+}
+
+function assetElement(asset) {
+  if (asset.type === "table") return tableAssetElement(asset);
+  if (asset.type === "external_link") return externalLinkAssetElement(asset);
+  if (asset.type === "external_image") return externalImageAssetElement(asset);
+  return localImageAssetElement(asset);
 }
 
 function renderAssets(container, assets) {
@@ -152,7 +240,8 @@ function renderResult(question, answer) {
 
 function renderQuestionList() {
   elements.list.replaceChildren();
-  state.exam.questions.forEach((question, index) => {
+  filteredQuestions().forEach((question) => {
+    const index = state.exam.questions.indexOf(question);
     const button = document.createElement("button");
     const answer = state.answers[question.id];
     button.type = "button";
@@ -169,22 +258,49 @@ function renderQuestionList() {
   });
 }
 
+function renderCategoryFilters() {
+  const categories = categoryOptions();
+  elements.categoryFilters.replaceChildren();
+  elements.categoryFilterPanel.hidden = !categories.length;
+  if (!categories.length) return;
+
+  const options = [{ id: "all", label: "すべて" }, ...categories];
+  for (const option of options) {
+    const button = document.createElement("button");
+    button.className = "category-filter";
+    button.type = "button";
+    button.textContent = option.label;
+    if (state.category === option.id) button.classList.add("current");
+    button.addEventListener("click", () => {
+      state.category = option.id;
+      ensureCurrentQuestionInFilter();
+      render();
+    });
+    elements.categoryFilters.append(button);
+  }
+}
+
 function render() {
-  const questions = state.exam.questions;
-  const question = questions[state.currentIndex];
+  ensureCurrentQuestionInFilter();
+  const questions = filteredQuestions();
+  const question = state.exam.questions[state.currentIndex];
+  const currentFilteredIndex = filteredPosition();
   const answer = state.answers[question.id];
   const answeredCount = questions.filter((item) => state.answers[item.id]).length;
   const correctCount = questions.filter(
     (item) => state.answers[item.id] === item.correct_choice,
   ).length;
 
-  elements.title.textContent = `No. ${question.number}`;
+  elements.title.textContent = question.category_label
+    ? `No. ${question.number} / ${question.category_label}`
+    : `No. ${question.number}`;
   elements.prompt.textContent = question.prompt;
   elements.position.textContent = `No. ${question.number} / ${questions.length}`;
   elements.score.textContent = `回答 ${answeredCount} / ${questions.length} ・ 正解 ${correctCount}`;
   elements.progress.style.width = `${(answeredCount / questions.length) * 100}%`;
-  elements.previous.disabled = state.currentIndex === 0;
-  elements.next.disabled = state.currentIndex === questions.length - 1;
+  elements.previous.disabled = currentFilteredIndex === 0;
+  elements.next.disabled = currentFilteredIndex === questions.length - 1;
+  renderCategoryFilters();
   renderAssets(elements.assets, question.assets);
   renderChoices(question, answer);
   renderResult(question, answer);
@@ -206,9 +322,11 @@ function renderExplanationLink(question) {
 }
 
 function moveQuestion(amount) {
-  const nextIndex = state.currentIndex + amount;
-  if (nextIndex < 0 || nextIndex >= state.exam.questions.length) return;
-  state.currentIndex = nextIndex;
+  const questions = filteredQuestions();
+  const currentFilteredIndex = filteredPosition();
+  const nextQuestion = questions[currentFilteredIndex + amount];
+  if (!nextQuestion) return;
+  state.currentIndex = state.exam.questions.indexOf(nextQuestion);
   render();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -396,6 +514,7 @@ elements.importStudyData.addEventListener("change", importStudyData);
 async function loadExam(examId) {
   state.examId = examId;
   state.currentIndex = 0;
+  state.category = "all";
   state.exam = null;
   elements.examLabel.textContent = exams[examId].label;
   elements.examSelect.value = examId;
@@ -416,8 +535,14 @@ function showLoadError(error) {
 
 const searchParams = new URLSearchParams(window.location.search);
 const requestedExam = searchParams.get("exam");
+const requestedCategory = searchParams.get("category");
 loadExam(exams[requestedExam] ? requestedExam : state.examId)
   .then(() => {
+    if (categoryOptions().some((category) => category.id === requestedCategory)) {
+      state.category = requestedCategory;
+      ensureCurrentQuestionInFilter();
+      render();
+    }
     if (searchParams.get("list") === "1") elements.listDialog.showModal();
   })
   .catch(showLoadError);
