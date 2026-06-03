@@ -40,7 +40,8 @@
         "type": "past_exam",
         "exam_id": "2022_R04",
         "question_number": 8,
-        "topic": "干渉測位、位相差、基線解析、セミ・ダイナミック補正"
+        "topic": "干渉測位、位相差、基線解析、セミ・ダイナミック補正",
+        "field_point": "観測方式、解析処理、補正の役割を区別し、成果の前提条件を説明できる。"
       }
     },
     {
@@ -80,7 +81,8 @@
         "type": "past_exam",
         "exam_id": "2022_R04",
         "question_number": 9,
-        "topic": "基線ベクトルの差し引き"
+        "topic": "基線ベクトルの差し引き",
+        "field_point": "基線ベクトルの向きと符号を確認し、隣接点間の相対位置を検算できる。"
       }
     },
     {
@@ -115,7 +117,8 @@
         "type": "past_exam",
         "exam_id": "2022_R04",
         "question_number": 16,
-        "topic": "現地測量におけるネットワーク型RTK法とTS併用"
+        "topic": "現地測量におけるネットワーク型RTK法とTS併用",
+        "field_point": "GNSSが苦手な環境ではTS等を併用し、取得方法を現場条件に合わせて選べる。"
       }
     },
     {
@@ -159,7 +162,8 @@
         "type": "past_exam",
         "exam_id": "2024_R06",
         "question_number": 8,
-        "topic": "電子基準点を既知点とするセミ・ダイナミック補正"
+        "topic": "電子基準点を既知点とするセミ・ダイナミック補正",
+        "field_point": "元期と今期を混同せず、電子基準点成果と観測値の時点をそろえて評価できる。"
       }
     },
     {
@@ -194,7 +198,8 @@
         "type": "past_exam",
         "exam_id": "2024_R06",
         "question_number": 9,
-        "topic": "GNSS測量の誤差要因と軽減方法"
+        "topic": "GNSS測量の誤差要因と軽減方法",
+        "field_point": "電離圏、対流圏、時計誤差、PCV、マルチパスを分けて誤差要因を説明できる。"
       }
     },
     {
@@ -229,7 +234,8 @@
         "type": "past_exam",
         "exam_id": "2025_R07",
         "question_number": 4,
-        "topic": "GNSS観測で得られる高さとジオイド"
+        "topic": "GNSS観測で得られる高さとジオイド",
+        "field_point": "楕円体高、ジオイド高、標高の違いを理解し、GNSSで得た高さを正しく扱える。"
       }
     },
     {
@@ -264,7 +270,8 @@
         "type": "past_exam",
         "exam_id": "2025_R07",
         "question_number": 8,
-        "topic": "電子基準点のみを既知点としたGNSS測量"
+        "topic": "電子基準点のみを既知点としたGNSS測量",
+        "field_point": "電子基準点を既知点にする場合の観測計画、解析、補正の注意点を説明できる。"
       }
     },
     {
@@ -304,7 +311,8 @@
         "type": "past_exam",
         "exam_id": "2025_R07",
         "question_number": 9,
-        "topic": "セミ・ダイナミック補正の計算"
+        "topic": "セミ・ダイナミック補正の計算",
+        "field_point": "地殻変動補正量を使い、元期成果として整合する座標を計算・確認できる。"
       }
     },
     {
@@ -339,7 +347,8 @@
         "type": "past_exam",
         "exam_id": "2025_R07",
         "question_number": 14,
-        "topic": "現地測量とネットワーク型RTK法"
+        "topic": "現地測量とネットワーク型RTK法",
+        "field_point": "通信状況やFIX可否を含め、ネットワーク型RTKの観測結果を現場で判断できる。"
       }
     },
     {
@@ -374,7 +383,8 @@
         "type": "past_exam",
         "exam_id": "2025_R07",
         "question_number": 20,
-        "topic": "車載写真レーザ測量とGNSS/IMU装置"
+        "topic": "車載写真レーザ測量とGNSS/IMU装置",
+        "field_point": "GNSS/IMUとLiDAR等の役割を分け、点群データの位置精度に影響する要素を説明できる。"
       }
     },
     {
@@ -408,6 +418,7 @@
       "source": {
         "type": "original",
         "topic": "GNSSの基本",
+        "field_point": "受信機の表示値をそのまま採用せず、利用している衛星系、測位方式、座標系、高さの基準を確認する。",
         "source_keys": [
           "qzss_column",
           "qzss_what"
@@ -445,6 +456,7 @@
       "source": {
         "type": "original",
         "topic": "電離圏遅延",
+        "field_point": "精度が不安定なときは、使用周波数、衛星配置、観測時間、補正方式を確認して原因を切り分ける。",
         "source_keys": [
           "qzss_ionosphere"
         ]
@@ -481,6 +493,7 @@
       "source": {
         "type": "original",
         "topic": "マルチパス",
+        "field_point": "FIXしていても周囲の反射環境が悪いと成果が乱れるため、観測点周辺の写真や現地状況も記録する。",
         "source_keys": [
           "qzss_multipath"
         ]
@@ -517,6 +530,7 @@
       "source": {
         "type": "original",
         "topic": "電子基準点",
+        "field_point": "既知点として使う場合は、成果の時点、停止・改定情報、近傍点との整合を確認する。",
         "source_keys": [
           "gsi_geonet",
           "gsi_sokuchi",
@@ -555,6 +569,7 @@
       "source": {
         "type": "original",
         "topic": "ネットワーク型RTK",
+        "field_point": "ネットワーク型RTKでは通信、補正情報、FIX状態、観測時間、検測結果を合わせて評価する。",
         "source_keys": [
           "gsi_realtime"
         ]
@@ -591,6 +606,7 @@
       "source": {
         "type": "original",
         "topic": "準天頂衛星システム",
+        "field_point": "測位性能を評価するときは、どの衛星系と補強情報を使っているかを受信機設定やログで確認する。",
         "source_keys": [
           "qzss_what"
         ]

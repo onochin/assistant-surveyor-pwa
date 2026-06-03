@@ -56,6 +56,11 @@ h2 {
   margin: 1.7rem 0 0.7rem;
 }
 
+.section-lead {
+  color: #4f6265;
+  margin-top: -0.2rem;
+}
+
 main {
   padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
 }
