@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "surveying-exam-study-v14";
+const CACHE_NAME = "surveying-exam-study-v17";
 const PRECACHE_URLS = [
   "./",
   "./quiz/",
@@ -156,6 +156,20 @@ const PRECACHE_URLS = [
   "./explanations/GNSS_FOCUS/q14.html",
   "./explanations/GNSS_FOCUS/q15.html",
   "./explanations/GNSS_FOCUS/q16.html",
+  "./explanations/GNSS_FOCUS/q17.html",
+  "./explanations/GNSS_FOCUS/q18.html",
+  "./explanations/GNSS_FOCUS/q19.html",
+  "./explanations/GNSS_FOCUS/q20.html",
+  "./explanations/GNSS_FOCUS/q21.html",
+  "./explanations/GNSS_FOCUS/q22.html",
+  "./explanations/GNSS_FOCUS/q23.html",
+  "./explanations/GNSS_FOCUS/q24.html",
+  "./explanations/GNSS_FOCUS/q25.html",
+  "./explanations/GNSS_FOCUS/q26.html",
+  "./explanations/GNSS_FOCUS/q27.html",
+  "./explanations/GNSS_FOCUS/q28.html",
+  "./explanations/GNSS_FOCUS/q29.html",
+  "./explanations/GNSS_FOCUS/q30.html",
   "./explanations/styles.css",
   "./home.css",
   "./icon-180.png",

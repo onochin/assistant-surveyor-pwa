@@ -7,6 +7,7 @@ const exams = {
     baseUrl: "../data/2025_R07/",
     storageKey: "assistant-surveyor-2025-r07-progress",
     notesStorageKey: "assistant-surveyor-2025-r07-notes",
+    archiveStorageKey: "assistant-surveyor-2025-r07-archive",
   },
   "2024_R06": {
     label: "令和6年",
@@ -14,6 +15,7 @@ const exams = {
     baseUrl: "../data/2024_R06/",
     storageKey: "assistant-surveyor-2024-r06-progress",
     notesStorageKey: "assistant-surveyor-2024-r06-notes",
+    archiveStorageKey: "assistant-surveyor-2024-r06-archive",
   },
   "2022_R04": {
     label: "令和4年",
@@ -21,6 +23,7 @@ const exams = {
     baseUrl: "../data/2022_R04/",
     storageKey: "assistant-surveyor-2022-r04-progress",
     notesStorageKey: "assistant-surveyor-2022-r04-notes",
+    archiveStorageKey: "assistant-surveyor-2022-r04-archive",
   },
   "GNSS_FOCUS": {
     label: "GNSS測位",
@@ -28,6 +31,7 @@ const exams = {
     baseUrl: "../data/GNSS_FOCUS/",
     storageKey: "assistant-surveyor-gnss-focus-progress",
     notesStorageKey: "assistant-surveyor-gnss-focus-notes",
+    archiveStorageKey: "assistant-surveyor-gnss-focus-archive",
   },
 };
 
@@ -36,8 +40,10 @@ const state = {
   exam: null,
   currentIndex: 0,
   category: "all",
+  archiveFilter: "active",
   answers: {},
   notes: {},
+  archived: {},
 };
 
 const elements = {
@@ -49,9 +55,13 @@ const elements = {
   score: document.querySelector("#score-summary"),
   progress: document.querySelector("#progress-bar"),
   categoryFilterPanel: document.querySelector("#category-filter-panel"),
+  categoryFilterSection: document.querySelector("#category-filter-section"),
   categoryFilters: document.querySelector("#category-filters"),
+  archiveFilters: document.querySelector("#archive-filters"),
   result: document.querySelector("#answer-result"),
   explanationLink: document.querySelector("#explanation-link"),
+  archiveStatus: document.querySelector("#archive-status"),
+  toggleArchive: document.querySelector("#toggle-archive"),
   note: document.querySelector("#question-note"),
   noteSaveStatus: document.querySelector("#note-save-status"),
   examLabel: document.querySelector("#exam-label"),
@@ -81,6 +91,7 @@ function readStoredObject(key) {
 function loadProgress() {
   state.answers = readStoredObject(exams[state.examId].storageKey);
   state.notes = readStoredObject(exams[state.examId].notesStorageKey);
+  state.archived = readStoredObject(exams[state.examId].archiveStorageKey);
 }
 
 function saveProgress() {
@@ -91,14 +102,29 @@ function saveNotes() {
   localStorage.setItem(exams[state.examId].notesStorageKey, JSON.stringify(state.notes));
 }
 
+function saveArchive() {
+  localStorage.setItem(exams[state.examId].archiveStorageKey, JSON.stringify(state.archived));
+}
+
 function categoryOptions() {
-  return state.exam?.categories || [];
+  const questions = state.exam?.questions || [];
+  return (state.exam?.categories || []).filter((category) =>
+    questions.some((question) => question.category === category.id),
+  );
 }
 
 function filteredQuestions() {
-  const questions = state.exam?.questions || [];
-  if (state.category === "all") return questions;
-  return questions.filter((question) => question.category === state.category);
+  let questions = state.exam?.questions || [];
+  if (state.category !== "all") {
+    questions = questions.filter((question) => question.category === state.category);
+  }
+  if (state.archiveFilter === "active") {
+    return questions.filter((question) => !state.archived[question.id]);
+  }
+  if (state.archiveFilter === "archived") {
+    return questions.filter((question) => state.archived[question.id]);
+  }
+  return questions;
 }
 
 function ensureCurrentQuestionInFilter() {
@@ -249,6 +275,7 @@ function renderQuestionList() {
     if (index === state.currentIndex) button.classList.add("current");
     if (answer) button.classList.add("answered");
     if (answer && answer !== question.correct_choice) button.classList.add("incorrect");
+    if (state.archived[question.id]) button.classList.add("archived");
     button.addEventListener("click", () => {
       state.currentIndex = index;
       elements.listDialog.close();
@@ -258,10 +285,34 @@ function renderQuestionList() {
   });
 }
 
+function renderArchiveFilters() {
+  const options = [
+    { id: "active", label: "未アーカイブ" },
+    { id: "all", label: "すべて" },
+    { id: "archived", label: "アーカイブのみ" },
+  ];
+  elements.archiveFilters.replaceChildren();
+  for (const option of options) {
+    const button = document.createElement("button");
+    button.className = "category-filter";
+    button.type = "button";
+    button.textContent = option.label;
+    if (state.archiveFilter === option.id) button.classList.add("current");
+    button.addEventListener("click", () => {
+      state.archiveFilter = option.id;
+      ensureCurrentQuestionInFilter();
+      render();
+    });
+    elements.archiveFilters.append(button);
+  }
+}
+
 function renderCategoryFilters() {
   const categories = categoryOptions();
   elements.categoryFilters.replaceChildren();
-  elements.categoryFilterPanel.hidden = !categories.length;
+  elements.categoryFilterPanel.hidden = false;
+  elements.categoryFilterSection.hidden = !categories.length;
+  renderArchiveFilters();
   if (!categories.length) return;
 
   const options = [{ id: "all", label: "すべて" }, ...categories];
@@ -283,6 +334,28 @@ function renderCategoryFilters() {
 function render() {
   ensureCurrentQuestionInFilter();
   const questions = filteredQuestions();
+  if (!questions.length) {
+    elements.title.textContent = "表示する問題がありません";
+    elements.prompt.textContent = "アーカイブ済みの問題を見る場合は、表示を「すべて」又は「アーカイブのみ」に切り替えてください。";
+    elements.position.textContent = "No. 0 / 0";
+    elements.score.textContent = "回答 0 / 0 ・ 正解 0";
+    elements.progress.style.width = "0%";
+    elements.previous.disabled = true;
+    elements.next.disabled = true;
+    elements.explanationLink.hidden = true;
+    elements.explanationLink.removeAttribute("href");
+    elements.archiveStatus.textContent = "";
+    elements.toggleArchive.disabled = true;
+    elements.note.value = "";
+    elements.note.disabled = true;
+    elements.noteSaveStatus.textContent = "表示中の問題なし";
+    renderCategoryFilters();
+    renderAssets(elements.assets, []);
+    elements.choices.replaceChildren();
+    elements.result.textContent = "";
+    renderQuestionList();
+    return;
+  }
   const question = state.exam.questions[state.currentIndex];
   const currentFilteredIndex = filteredPosition();
   const answer = state.answers[question.id];
@@ -300,14 +373,25 @@ function render() {
   elements.progress.style.width = `${(answeredCount / questions.length) * 100}%`;
   elements.previous.disabled = currentFilteredIndex === 0;
   elements.next.disabled = currentFilteredIndex === questions.length - 1;
+  elements.toggleArchive.disabled = false;
+  elements.note.disabled = false;
   renderCategoryFilters();
   renderAssets(elements.assets, question.assets);
   renderChoices(question, answer);
   renderResult(question, answer);
   renderExplanationLink(question);
+  renderArchiveState(question);
   elements.note.value = state.notes[question.id] || "";
   elements.noteSaveStatus.textContent = "端末内に自動保存";
   renderQuestionList();
+}
+
+function renderArchiveState(question) {
+  const isArchived = Boolean(state.archived[question.id]);
+  elements.archiveStatus.textContent = isArchived
+    ? "この問題はアーカイブ済みです。"
+    : "この問題は通常表示中です。";
+  elements.toggleArchive.textContent = isArchived ? "アーカイブを解除" : "覚えたのでアーカイブ";
 }
 
 function renderExplanationLink(question) {
@@ -349,6 +433,18 @@ document.querySelector("#clear-question-note").addEventListener("click", () => {
   saveNotes();
   render();
 });
+elements.toggleArchive.addEventListener("click", () => {
+  const question = state.exam.questions[state.currentIndex];
+  if (!question) return;
+  if (state.archived[question.id]) {
+    delete state.archived[question.id];
+  } else {
+    state.archived[question.id] = true;
+  }
+  saveArchive();
+  ensureCurrentQuestionInFilter();
+  render();
+});
 elements.note.addEventListener("input", () => {
   const question = state.exam.questions[state.currentIndex];
   const value = elements.note.value;
@@ -382,6 +478,7 @@ function storedStudyData() {
     saved[examId] = {
       answers: readStoredObject(exam.storageKey),
       notes: readStoredObject(exam.notesStorageKey),
+      archived: readStoredObject(exam.archiveStorageKey),
     };
   }
   return saved;
@@ -494,8 +591,14 @@ async function importStudyData() {
         imported.notes,
         (key, value) => isQuestionId(key) && typeof value === "string",
       );
+      const archived = mergeImportedObject(
+        readStoredObject(exam.archiveStorageKey),
+        imported.archived,
+        (key, value) => isQuestionId(key) && value === true,
+      );
       localStorage.setItem(exam.storageKey, JSON.stringify(answers));
       localStorage.setItem(exam.notesStorageKey, JSON.stringify(notes));
+      localStorage.setItem(exam.archiveStorageKey, JSON.stringify(archived));
     }
     loadProgress();
     render();
@@ -515,6 +618,7 @@ async function loadExam(examId) {
   state.examId = examId;
   state.currentIndex = 0;
   state.category = "all";
+  state.archiveFilter = "active";
   state.exam = null;
   elements.examLabel.textContent = exams[examId].label;
   elements.examSelect.value = examId;

@@ -38,8 +38,14 @@
       </section>
 
       <section id="category-filter-panel" class="category-filter-panel" hidden>
-        <h2>カテゴリ</h2>
-        <div id="category-filters" class="category-filters"></div>
+        <div class="filter-section">
+          <h2>表示</h2>
+          <div id="archive-filters" class="category-filters"></div>
+        </div>
+        <div id="category-filter-section" class="filter-section">
+          <h2>カテゴリ</h2>
+          <div id="category-filters" class="category-filters"></div>
+        </div>
       </section>
 
       <section id="question-card" class="question-card" aria-live="polite">
@@ -53,6 +59,10 @@
         <a id="explanation-link" class="explanation-link" target="_blank" rel="noopener">
           解説を見る
         </a>
+        <div class="archive-panel">
+          <p id="archive-status">通常表示中</p>
+          <button id="toggle-archive" class="secondary-button" type="button">覚えたのでアーカイブ</button>
+        </div>
         <section class="note-panel" aria-labelledby="note-title">
           <div class="note-header">
             <h3 id="note-title">メモ</h3>

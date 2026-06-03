@@ -131,6 +131,10 @@ main {
   margin-bottom: 0.55rem;
 }
 
+.filter-section + .filter-section {
+  margin-top: 0.8rem;
+}
+
 .category-filters {
   display: flex;
   flex-wrap: wrap;
@@ -226,6 +230,24 @@ main {
   margin-top: 0.35rem;
   padding: 0.7rem 1rem;
   text-decoration: none;
+}
+
+.archive-panel {
+  align-items: center;
+  background: #fbfaf7;
+  border: 1px solid #e0ded8;
+  border-radius: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-top: 0.8rem;
+  padding: 0.75rem;
+}
+
+.archive-panel p {
+  color: #526467;
+  font-size: 0.9rem;
+  margin: 0;
 }
 
 .note-panel {
@@ -460,6 +482,11 @@ dialog::backdrop {
   outline: 3px solid #26736b;
 }
 
+.question-grid .archived {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
 .visually-hidden {
   height: 1px;
   margin: -1px;
@@ -479,12 +506,14 @@ dialog::backdrop {
   }
 
   .note-actions,
+  .archive-panel,
   .backup-actions {
     align-items: stretch;
     flex-direction: column;
   }
 
   .note-actions button,
+  .archive-panel button,
   .backup-actions button,
   .file-button {
     text-align: center;
